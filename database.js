@@ -20,6 +20,9 @@ $(document).ready(function() {
       <td> <button class="remove">x</button> </td>
     </tr>`);
   }
+  function saveItems() {
+    localStorage.setItem("items", JSON.stringify(items));
+  }
 
   $("#add-button").click(function() {
     var store = $("#store").val();
@@ -41,14 +44,14 @@ $(document).ready(function() {
 
     items.push(item);
     addItem(item);
-    localStorage.setItem("items", JSON.stringify(items));
+    saveItems();
   });
 
   $("#table tbody").on("click", ".remove", function() {
     var tableRow = $(this).parents("tr");
     items.splice(tableRow.index(), 1);
     tableRow.remove();
-    localStorage.setItem("items", JSON.stringify(items));
+    saveItems();
   });
 
   $("#store-dropdown").change(function() {
