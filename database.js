@@ -1,17 +1,14 @@
 $(document).ready(function() {
 
   var items = JSON.parse(localStorage.getItem("items") || "[]");
+  items.forEach(addItem);
 
   function addItem(item) {
-    if ($("#store-dropdown>option[value='" + item.store + "']").length == 0) {
-      $("#store-dropdown").append(
-        `<option value="${item.store}"> ${item.store} </option>`
-      );
+    if ($("#store-dropdown option[value='" + item.store + "']").length == 0) {
+      $("#store-dropdown").append(`<option value="${item.store}"> ${item.store} </option>`);
     }
-    if ($("#product-dropdown>option[value='" + item.product + "']").length == 0) {
-      $("#product-dropdown").append(
-        `<option value="${item.product}"> ${item.product} </option>`
-      );
+    if ($("#product-dropdown option[value='" + item.product + "']").length == 0) {
+      $("#product-dropdown").append(`<option value="${item.product}"> ${item.product} </option>`);
     }
     $("#table tbody").prepend(`<tr>
       <td> ${item.date} </td>
@@ -23,20 +20,12 @@ $(document).ready(function() {
       <td> <button class="remove">x</button> </td>
     </tr>`);
   }
-  items.forEach(addItem);
 
-  $("#addButton").click(function() {
-
+  $("#add-button").click(function() {
     var store = $("#store").val();
-
     var product = $("#product").val();
-    $("#product").val("");
-
     var price = parseFloat($("#price").val()) || 0;
-    $("#price").val("");
-
-    var quantity = $("#quantity").val() || 1;
-    $("#quantity").val("");
+    var quantity = parseFloat($("#quantity").val()) || 1;
 
     var item = {
       date: moment().format('M.D.YYYY'),
@@ -46,10 +35,13 @@ $(document).ready(function() {
       quantity: quantity,
     };
 
+    $("#product").val("");
+    $("#price").val("");
+    $("#quantity").val("");
+
     items.push(item);
     addItem(item);
     localStorage.setItem("items", JSON.stringify(items));
-
   });
 
   $("#table tbody").on("click", ".remove", function() {
@@ -57,18 +49,16 @@ $(document).ready(function() {
     items.splice(tableRow.index(), 1);
     tableRow.remove();
     localStorage.setItem("items", JSON.stringify(items));
-
   });
 
   $("#store-dropdown").change(function() {
-
     $("#store").val($("#store-dropdown").val());
-
+    $("#store-dropdown").val("");
   });
 
   $("#product-dropdown").change(function() {
-
     $("#product").val($("#product-dropdown").val());
+    $("#product-dropdown").val("");
 
     var store = $("#store").val();
     var product = $("#product").val();
@@ -81,7 +71,6 @@ $(document).ready(function() {
     }
 
     $("#price").val(price);
-
   });
 
 });
