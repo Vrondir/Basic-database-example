@@ -3,12 +3,12 @@ $(document).ready(function() {
   var items = JSON.parse(localStorage.getItem("items") || "[]");
 
   function addItem(item) {
-    if ($("#store-dropdown>option[value='"+item.store+"']").length == 0) {
+    if ($("#store-dropdown>option[value='" + item.store + "']").length == 0) {
       $("#store-dropdown").append(
         `<option value="${item.store}"> ${item.store} </option>`
       );
     }
-    if ($("#product-dropdown>option[value='"+item.product+"']").length == 0) {
+    if ($("#product-dropdown>option[value='" + item.product + "']").length == 0) {
       $("#product-dropdown").append(
         `<option value="${item.product}"> ${item.product} </option>`
       );
@@ -54,7 +54,7 @@ $(document).ready(function() {
 
   $("#table tbody").on("click", ".remove", function() {
     var tableRow = $(this).parents("tr");
-    items.splice(tableRow.index(),1);
+    items.splice(tableRow.index(), 1);
     tableRow.remove();
     localStorage.setItem("items", JSON.stringify(items));
 
